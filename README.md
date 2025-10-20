@@ -2,6 +2,10 @@
 
 A Crystal library for working with IPv4 and IPv6 CIDR network masks. Easily check if IP addresses belong to specific network ranges.
 
+## Artificial Intelligence / LLM Contribution
+
+This library was written by Claude Code using the Sonnet 4.5 model.  The resulting code was manually reviewed by the author listed below.  This was work that the author is entirely capable of having performed personally however it was a fun exercise in learning how to use Claude Code, and the author plans to support the library without the use of such tools in the future, except for advisory usage such as auto-completion and pointing out possible gaps in testing, etc.
+
 ## Installation
 
 1. Add the dependency to your `shard.yml`:
@@ -20,39 +24,39 @@ A Crystal library for working with IPv4 and IPv6 CIDR network masks. Easily chec
 require "netmask"
 
 # Create netmasks from CIDR notation
-ipv4_net = Netmask.new("192.168.0.0/24")
-ipv6_net = Netmask.new("3fff::/20")
+ipv4_net = Netmask.new "192.168.0.0/24"
+ipv6_net = Netmask.new "3fff::/20"
 
 # Create from hostname (resolves via DNS)
-host_net = Netmask.new("example.host.name/32")
+host_net = Netmask.new "example.host.name/32"
 
 # Create from Socket::IPAddress
-ip = Socket::IPAddress.new("192.168.1.0", 0)
-net = Netmask.new(ip, 24)
+ip = Socket::IPAddress.new "192.168.1.0", 0
+net = Netmask.new ip, 24 
 
 # Check if addresses match the network
-ipv4_net.matches?("192.168.0.100")  # => true
-ipv4_net.matches?("192.168.1.100")  # => false
+ipv4_net.matches? "192.168.0.100"   # => true
+ipv4_net.matches? "192.168.1.100"   # => false
 
 # Works with IPv6
-ipv6_net.matches?("3fff::1")        # => true
-ipv6_net.matches?("fe80::1")        # => false
+ipv6_net.matches? "3fff::1"         # => true
+ipv6_net.matches? "fe80::1"         # => false
 
 # Multiple input types supported
-ipv4_net.matches?(0xC0A80064_u32)   # UInt32 (IPv4)
-ipv6_net.matches?(0x3fff0000000000000000000000000001_u128)  # UInt128 (IPv6)
+ipv4_net.matches? 0xC0A80064_u32    # UInt32 (IPv4)
+ipv6_net.matches? 0x3fff0000000000000000000000000001_u128   # UInt128 (IPv6)
 
 # Byte arrays
-ipv4_net.matches?(StaticArray[192_u8, 168_u8, 0_u8, 100_u8])
-ipv6_net.matches?(StaticArray[0x3fff_u16, 0_u16, 0_u16, 0_u16, 0_u16, 0_u16, 0_u16, 1_u16])
+ipv4_net.matches? StaticArray[192_u8, 168_u8, 0_u8, 100_u8] 
+ipv6_net.matches? StaticArray[0x3fff_u16, 0_u16, 0_u16, 0_u16, 0_u16, 0_u16, 0_u16, 1_u16] 
 
 # Slices
-ipv4_net.matches?(Slice[192_u8, 168_u8, 0_u8, 100_u8])
-ipv6_net.matches?(Slice[0x3fff_u16, 0_u16, 0_u16, 0_u16, 0_u16, 0_u16, 0_u16, 1_u16])
+ipv4_net.matches? Slice[192_u8, 168_u8, 0_u8, 100_u8] 
+ipv6_net.matches? Slice[0x3fff_u16, 0_u16, 0_u16, 0_u16, 0_u16, 0_u16, 0_u16, 1_u16] 
 
 # Socket::IPAddress (port is ignored)
 ip_addr = Socket::IPAddress.new("192.168.0.50", 8080)
-ipv4_net.matches?(ip_addr)  # => true
+ipv4_net.matches? ip_addr   # => true
 
 # Check network type
 ipv4_net.ipv4?  # => true
