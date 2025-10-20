@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.10.1">
+<meta name="crystal_docs.project_version" content="main-dev">
+<meta name="crystal_docs.project_name" content="netmask">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="netmask">
+  <title>Netmask - netmask main-dev</title>
+  <script type="text/javascript">
+    CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          netmask
+        </a>
+      </h1>
+
+      <span class="project-version">
+        main-dev
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" current" data-id="netmask/Netmask" data-name="netmask">
+      <a href="Netmask.html">Netmask</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">
+    struct
+  </span> Netmask
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="Netmask.html">Netmask</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>
+    <a id="overview" class="anchor" href="#overview">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Overview
+  </h2>
+
+  <p>A <code><a href="Netmask.html">Netmask</a></code> represents an IPv4 or IPv6 CIDR network block.</p>
+<p>A <code><a href="Netmask.html">Netmask</a></code> is typically created with a CIDR notation string:</p>
+<pre><code class="language-crystal">ipv4 <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+ipv6 <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span></code></pre>
+<p>It can also be created from a hostname (which will be resolved via DNS):</p>
+<pre><code class="language-crystal">host <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;example.com/32&quot;</span></code></pre>
+<p>Or from a <code>Socket::IPAddress</code> and prefix length:</p>
+<pre><code class="language-crystal">ip <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new <span class="s">&quot;192.168.1.0&quot;</span>, <span class="n">0</span>
+netmask <span class="o">=</span> <span class="t">Netmask</span>.new ip, <span class="n">24</span></code></pre>
+<p>Once created, a <code><a href="Netmask.html">Netmask</a></code> can test whether IP addresses fall within its range
+using the <code><a href="Netmask.html#matches%3F%28address%3AString%29%3ABool-instance-method">#matches?</a></code> method, which accepts addresses in multiple formats:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+
+<span class="c"># String addresses</span>
+netmask.matches? <span class="s">&quot;192.168.0.100&quot;</span> <span class="c"># =&gt; true</span>
+netmask.matches? <span class="s">&quot;192.168.1.100&quot;</span> <span class="c"># =&gt; false</span>
+
+<span class="c"># Socket::IPAddress (port is ignored)</span>
+ip <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new <span class="s">&quot;192.168.0.50&quot;</span>, <span class="n">8080</span>
+netmask.matches? ip <span class="c"># =&gt; true</span>
+
+<span class="c"># Raw integer values (network byte order)</span>
+netmask.matches? <span class="n">0xC0A80064_u32</span> <span class="c"># =&gt; true (192.168.0.100)</span>
+
+<span class="c"># Byte arrays</span>
+netmask.matches? <span class="t">StaticArray</span>[<span class="n">192_u8</span>, <span class="n">168_u8</span>, <span class="n">0_u8</span>, <span class="n">100_u8</span>] <span class="c"># =&gt; true</span>
+netmask.matches? <span class="t">Slice</span>[<span class="n">192_u8</span>, <span class="n">168_u8</span>, <span class="n">0_u8</span>, <span class="n">100_u8</span>]       <span class="c"># =&gt; true</span></code></pre>
+<h2><a id="i-pv4-and-i-pv6-support" class="anchor" href="#i-pv4-and-i-pv6-support">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>IPv4 and IPv6 Support</h2>
+<p><code><a href="Netmask.html">Netmask</a></code> uses Crystal's union types to efficiently store either IPv4 or IPv6
+network addresses. The network address is stored internally as either <code>UInt32</code>
+(for IPv4) or <code>UInt128</code> (for IPv6). The address family is automatically
+determined based on the input format.</p>
+<pre><code class="language-crystal">ipv4 <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;10.0.0.0/8&quot;</span>
+ipv4.ipv4? <span class="c"># =&gt; true</span>
+ipv4.ipv6? <span class="c"># =&gt; false</span>
+
+ipv6 <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;2001:db8::/32&quot;</span>
+ipv6.ipv4? <span class="c"># =&gt; false</span>
+ipv6.ipv6? <span class="c"># =&gt; true</span></code></pre>
+<h2><a id="network-mask-application" class="anchor" href="#network-mask-application">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Network Mask Application</h2>
+<p>When a <code><a href="Netmask.html">Netmask</a></code> is created, the network address is automatically normalized
+by applying the mask. This means host bits are zeroed out:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.100/24&quot;</span>
+netmask.matches? <span class="s">&quot;192.168.0.1&quot;</span>   <span class="c"># =&gt; true</span>
+netmask.matches? <span class="s">&quot;192.168.0.254&quot;</span> <span class="c"># =&gt; true</span></code></pre>
+<h2><a id="address-family-matching" class="anchor" href="#address-family-matching">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Address Family Matching</h2>
+<p>A <code><a href="Netmask.html">Netmask</a></code> will only match addresses of the same address family. IPv4 netmasks
+will not match IPv6 addresses and vice versa:</p>
+<pre><code class="language-crystal">ipv4_net <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+ipv4_net.matches? <span class="s">&quot;fe80::1&quot;</span> <span class="c"># =&gt; false</span>
+
+ipv6_net <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
+ipv6_net.matches? <span class="s">&quot;192.168.0.1&quot;</span> <span class="c"># =&gt; false</span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      netmask.cr
+    
+    <br/>
+  
+
+
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="VERSION">
+        <strong>VERSION</strong> = <code><span class="s">&quot;0.1.0&quot;</span></code>
+      </dt>
+      
+    
+  </dl>
+
+
+
+  
+  <h2>
+    <a id="constructors" class="anchor" href="#constructors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructors
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28ip%3ASocket%3A%3AIPAddress%2Cbits%3AInt32%29-class-method" class="signature"><strong>.new</strong>(ip : Socket::IPAddress, bits : Int32)</a>
+        
+          <div class="summary"><p>Creates a new <code><a href="Netmask.html">Netmask</a></code> from a <code>Socket::IPAddress</code> and prefix length.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#new%28cidr%3AString%29-class-method" class="signature"><strong>.new</strong>(cidr : String)</a>
+        
+          <div class="summary"><p>Creates a new <code><a href="Netmask.html">Netmask</a></code> from a CIDR notation string.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Summary
+  </h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#ipv4%3F%3ABool-instance-method" class="signature"><strong>#ipv4?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this netmask represents an IPv4 network, <code>false</code> otherwise.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#ipv6%3F%3ABool-instance-method" class="signature"><strong>#ipv6?</strong> : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if this netmask represents an IPv6 network, <code>false</code> otherwise.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#matches%3F%28address%3AString%29%3ABool-instance-method" class="signature"><strong>#matches?</strong>(address : String) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the given string <em>address</em> falls within this network block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#matches%3F%28address%3ASocket%3A%3AIPAddress%29%3ABool-instance-method" class="signature"><strong>#matches?</strong>(address : Socket::IPAddress) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the given <code>Socket::IPAddress</code> falls within this network block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#matches%3F%28address%3AUInt32%29%3ABool-instance-method" class="signature"><strong>#matches?</strong>(address : UInt32) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the given <code>UInt32</code> <em>address</em> (in network byte order) falls within this network block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#matches%3F%28address%3AUInt128%29%3ABool-instance-method" class="signature"><strong>#matches?</strong>(address : UInt128) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the given <code>UInt128</code> <em>address</em> (in network byte order) falls within this network block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#matches%3F%28address%3AStaticArray%28UInt8%2C4%29%29%3ABool-instance-method" class="signature"><strong>#matches?</strong>(address : StaticArray(UInt8, <span class="n">4</span>)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the given byte array <em>address</em> (IPv4 in network byte order) falls within this network block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#matches%3F%28address%3AStaticArray%28UInt16%2C8%29%29%3ABool-instance-method" class="signature"><strong>#matches?</strong>(address : StaticArray(UInt16, <span class="n">8</span>)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the given segment array <em>address</em> (IPv6 in network byte order) falls within this network block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#matches%3F%28address%3ASlice%28UInt8%29%29%3ABool-instance-method" class="signature"><strong>#matches?</strong>(address : Slice(UInt8)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the given byte slice <em>address</em> (in network byte order) falls within this network block.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#matches%3F%28address%3ASlice%28UInt16%29%29%3ABool-instance-method" class="signature"><strong>#matches?</strong>(address : Slice(UInt16)) : Bool</a>
+        
+          <div class="summary"><p>Returns <code>true</code> if the given segment slice <em>address</em> (IPv6 in network byte order) falls within this network block.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <div class="methods-inherited">
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+      
+
+
+      
+
+
+      
+
+
+      
+
+
+    
+  </div>
+
+  
+  <h2>
+    <a id="constructor-detail" class="anchor" href="#constructor-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Constructor Detail
+  </h2>
+  
+    <div class="entry-detail" id="new(ip:Socket::IPAddress,bits:Int32)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(ip : Socket::IPAddress, bits : Int32)
+
+        <a class="method-permalink" href="#new%28ip%3ASocket%3A%3AIPAddress%2Cbits%3AInt32%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates a new <code><a href="Netmask.html">Netmask</a></code> from a <code>Socket::IPAddress</code> and prefix length.</p>
+<p>The <em>ip</em> parameter provides the network address, and <em>bits</em> specifies
+the prefix length (number of leading bits that define the network).</p>
+<p>For IPv4 addresses, <em>bits</em> must be between 0 and 32.
+For IPv6 addresses, <em>bits</em> must be between 0 and 128.</p>
+<p>The port number in the <code>Socket::IPAddress</code> is ignored:</p>
+<pre><code class="language-crystal">ip <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new <span class="s">&quot;192.168.1.0&quot;</span>, <span class="n">8080</span>
+netmask <span class="o">=</span> <span class="t">Netmask</span>.new ip, <span class="n">24</span>
+netmask.matches? <span class="s">&quot;192.168.1.100&quot;</span> <span class="c"># =&gt; true</span></code></pre>
+<p>Works with both IPv4 and IPv6:</p>
+<pre><code class="language-crystal">ipv4 <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new <span class="s">&quot;10.0.0.0&quot;</span>, <span class="n">0</span>
+net4 <span class="o">=</span> <span class="t">Netmask</span>.new ipv4, <span class="n">8</span>
+net4.matches? <span class="s">&quot;10.255.255.255&quot;</span> <span class="c"># =&gt; true</span>
+
+ipv6 <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new <span class="s">&quot;fe80::1&quot;</span>, <span class="n">0</span>
+net6 <span class="o">=</span> <span class="t">Netmask</span>.new ipv6, <span class="n">64</span>
+net6.matches? <span class="s">&quot;fe80::ffff&quot;</span> <span class="c"># =&gt; true</span></code></pre>
+<p>Raises <code>ArgumentError</code> if:</p>
+<ul>
+<li>The prefix length is negative</li>
+<li>The prefix length exceeds the maximum for the address family (32 for IPv4, 128 for IPv6)</li>
+<li>The address family is not IPv4 or IPv6</li>
+</ul>
+<pre><code class="language-crystal">ip <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new <span class="s">&quot;192.168.0.0&quot;</span>, <span class="n">0</span>
+<span class="t">Netmask</span>.new ip, <span class="n">33</span> <span class="c"># raises ArgumentError</span>
+<span class="t">Netmask</span>.new ip, <span class="n">-1</span> <span class="c"># raises ArgumentError</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="new(cidr:String)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(cidr : String)
+
+        <a class="method-permalink" href="#new%28cidr%3AString%29-class-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Creates a new <code><a href="Netmask.html">Netmask</a></code> from a CIDR notation string.</p>
+<p>The <em>cidr</em> parameter must be in the format <code>&quot;address/prefix_length&quot;</code>,
+where the address can be:</p>
+<ul>
+<li>An IPv4 address (e.g., <code>&quot;192.168.0.0/24&quot;</code>)</li>
+<li>An IPv6 address (e.g., <code>&quot;fe80::/64&quot;</code>)</li>
+<li>A hostname that resolves to an IP address (e.g., <code>&quot;example.com/32&quot;</code>)</li>
+</ul>
+<p>The prefix length specifies how many leading bits define the network portion.
+For IPv4, this must be between 0 and 32. For IPv6, this must be between 0 and 128.</p>
+<p>The network address is automatically normalized by applying the mask, so host
+bits in the address portion are ignored:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.100/24&quot;</span>
+netmask.matches? <span class="s">&quot;192.168.0.1&quot;</span> <span class="c"># =&gt; true</span></code></pre>
+<p>IPv6 addresses can use compressed notation:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::1/64&quot;</span>
+netmask.matches? <span class="s">&quot;fe80::abcd&quot;</span> <span class="c"># =&gt; true</span></code></pre>
+<p>Hostnames are resolved via DNS:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;localhost/32&quot;</span>
+netmask.matches? <span class="s">&quot;127.0.0.1&quot;</span> <span class="c"># =&gt; true</span></code></pre>
+<p>Raises <code>ArgumentError</code> if:</p>
+<ul>
+<li>The string is not in valid CIDR notation (must contain exactly one <code>/</code>)</li>
+<li>The address cannot be parsed or resolved</li>
+<li>The prefix length is out of range for the address family</li>
+</ul>
+<pre><code class="language-crystal"><span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/33&quot;</span> <span class="c"># raises ArgumentError (IPv4 max is /32)</span>
+<span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0&quot;</span>    <span class="c"># raises ArgumentError (missing prefix)</span>
+<span class="t">Netmask</span>.new <span class="s">&quot;invalid/24&quot;</span>     <span class="c"># raises ArgumentError (cannot resolve)</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
+
+  
+
+  
+
+  
+  <h2>
+    <a id="instance-method-detail" class="anchor" href="#instance-method-detail">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Instance Method Detail
+  </h2>
+  
+    <div class="entry-detail" id="ipv4?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>ipv4?</strong> : Bool
+
+        <a class="method-permalink" href="#ipv4%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this netmask represents an IPv4 network, <code>false</code> otherwise.</p>
+<pre><code class="language-crystal">ipv4 <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+ipv4.ipv4? <span class="c"># =&gt; true</span>
+
+ipv6 <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
+ipv6.ipv4? <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="ipv6?:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>ipv6?</strong> : Bool
+
+        <a class="method-permalink" href="#ipv6%3F%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if this netmask represents an IPv6 network, <code>false</code> otherwise.</p>
+<pre><code class="language-crystal">ipv6 <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
+ipv6.ipv6? <span class="c"># =&gt; true</span>
+
+ipv4 <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+ipv4.ipv6? <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="matches?(address:String):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>matches?</strong>(address : String) : Bool
+
+        <a class="method-permalink" href="#matches%3F%28address%3AString%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the given string <em>address</em> falls within this network block.</p>
+<p>The <em>address</em> can be an IPv4 address (e.g., <code>&quot;192.168.0.1&quot;</code>) or an IPv6
+address (e.g., <code>&quot;fe80::1&quot;</code>). IPv6 addresses can use compressed notation.</p>
+<p>Returns <code>false</code> if:</p>
+<ul>
+<li>The address is not within the network range</li>
+<li>The address is invalid or cannot be parsed</li>
+<li>The address family doesn't match the netmask's family</li>
+</ul>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+netmask.matches? <span class="s">&quot;192.168.0.1&quot;</span>   <span class="c"># =&gt; true</span>
+netmask.matches? <span class="s">&quot;192.168.0.254&quot;</span> <span class="c"># =&gt; true</span>
+netmask.matches? <span class="s">&quot;192.168.1.1&quot;</span>   <span class="c"># =&gt; false</span>
+netmask.matches? <span class="s">&quot;invalid&quot;</span>       <span class="c"># =&gt; false</span>
+netmask.matches? <span class="s">&quot;fe80::1&quot;</span>       <span class="c"># =&gt; false (wrong family)</span></code></pre>
+<p>IPv6 example:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
+netmask.matches? <span class="s">&quot;fe80::1&quot;</span>         <span class="c"># =&gt; true</span>
+netmask.matches? <span class="s">&quot;fe80::ffff:ffff&quot;</span> <span class="c"># =&gt; true</span>
+netmask.matches? <span class="s">&quot;fe81::1&quot;</span>         <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="matches?(address:Socket::IPAddress):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>matches?</strong>(address : Socket::IPAddress) : Bool
+
+        <a class="method-permalink" href="#matches%3F%28address%3ASocket%3A%3AIPAddress%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the given <code>Socket::IPAddress</code> falls within this network block.</p>
+<p>The port number in <em>address</em> is ignored; only the IP address is used for matching.</p>
+<p>Returns <code>false</code> if the address is not within the network range or if the
+address family doesn't match the netmask's family.</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+ip <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new <span class="s">&quot;192.168.0.100&quot;</span>, <span class="n">8080</span>
+netmask.matches? ip <span class="c"># =&gt; true (port 8080 is ignored)</span>
+
+ip2 <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new <span class="s">&quot;10.0.0.1&quot;</span>, <span class="n">80</span>
+netmask.matches? ip2 <span class="c"># =&gt; false</span></code></pre>
+<p>Raises <code>ArgumentError</code> if the address family is not IPv4 or IPv6:</p>
+<pre><code class="language-crystal"><span class="c"># Assuming a hypothetical unsupported address type</span>
+netmask.matches? unsupported_addr <span class="c"># raises ArgumentError</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="matches?(address:UInt32):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>matches?</strong>(address : UInt32) : Bool
+
+        <a class="method-permalink" href="#matches%3F%28address%3AUInt32%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the given <code>UInt32</code> <em>address</em> (in network byte order) falls within this network block.</p>
+<p>This overload is only valid for IPv4 netmasks. Returns <code>false</code> if called on an IPv6 netmask.</p>
+<p>The address must be in network byte order (big-endian), with the most significant
+byte representing the first octet:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+<span class="c"># 192.168.0.100 = 0xC0A80064</span>
+netmask.matches? <span class="n">0xC0A80064_u32</span> <span class="c"># =&gt; true</span>
+netmask.matches? <span class="n">0xC0A80164_u32</span> <span class="c"># =&gt; false (192.168.1.100)</span></code></pre>
+<p>Returns <code>false</code> when called on an IPv6 netmask:</p>
+<pre><code class="language-crystal">ipv6_net <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
+ipv6_net.matches? <span class="n">0xC0A80064_u32</span> <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="matches?(address:UInt128):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>matches?</strong>(address : UInt128) : Bool
+
+        <a class="method-permalink" href="#matches%3F%28address%3AUInt128%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the given <code>UInt128</code> <em>address</em> (in network byte order) falls within this network block.</p>
+<p>This overload is only valid for IPv6 netmasks. Returns <code>false</code> if called on an IPv4 netmask.</p>
+<p>The address must be in network byte order (big-endian):</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
+<span class="c"># fe80::1 = 0xfe800000000000000000000000000001</span>
+netmask.matches? <span class="n">0xfe800000000000000000000000000001_u128</span> <span class="c"># =&gt; true</span>
+netmask.matches? <span class="n">0xfe810000000000000000000000000001_u128</span> <span class="c"># =&gt; false</span></code></pre>
+<p>Returns <code>false</code> when called on an IPv4 netmask:</p>
+<pre><code class="language-crystal">ipv4_net <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+ipv4_net.matches? <span class="n">0xfe800000000000000000000000000001_u128</span> <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="matches?(address:StaticArray(UInt8,4)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>matches?</strong>(address : StaticArray(UInt8, <span class="n">4</span>)) : Bool
+
+        <a class="method-permalink" href="#matches%3F%28address%3AStaticArray%28UInt8%2C4%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the given byte array <em>address</em> (IPv4 in network byte order) falls within this network block.</p>
+<p>This overload is only valid for IPv4 netmasks. Returns <code>false</code> if called on an IPv6 netmask.</p>
+<p>The array must contain exactly 4 bytes representing the IPv4 address in network byte order:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+addr <span class="o">=</span> <span class="t">StaticArray</span>[<span class="n">192_u8</span>, <span class="n">168_u8</span>, <span class="n">0_u8</span>, <span class="n">100_u8</span>]
+netmask.matches? addr <span class="c"># =&gt; true</span>
+
+addr2 <span class="o">=</span> <span class="t">StaticArray</span>[<span class="n">192_u8</span>, <span class="n">168_u8</span>, <span class="n">1_u8</span>, <span class="n">100_u8</span>]
+netmask.matches? addr2 <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="matches?(address:StaticArray(UInt16,8)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>matches?</strong>(address : StaticArray(UInt16, <span class="n">8</span>)) : Bool
+
+        <a class="method-permalink" href="#matches%3F%28address%3AStaticArray%28UInt16%2C8%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the given segment array <em>address</em> (IPv6 in network byte order) falls within this network block.</p>
+<p>This overload is only valid for IPv6 netmasks. Returns <code>false</code> if called on an IPv4 netmask.</p>
+<p>The array must contain exactly 8 16-bit segments representing the IPv6 address in network byte order:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
+<span class="c"># fe80::1</span>
+addr <span class="o">=</span> <span class="t">StaticArray</span>[<span class="n">0xfe80_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">1_u16</span>]
+netmask.matches? addr <span class="c"># =&gt; true</span>
+
+<span class="c"># fe81::1</span>
+addr2 <span class="o">=</span> <span class="t">StaticArray</span>[<span class="n">0xfe81_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">1_u16</span>]
+netmask.matches? addr2 <span class="c"># =&gt; false</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="matches?(address:Slice(UInt8)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>matches?</strong>(address : Slice(UInt8)) : Bool
+
+        <a class="method-permalink" href="#matches%3F%28address%3ASlice%28UInt8%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the given byte slice <em>address</em> (in network byte order) falls within this network block.</p>
+<p>The slice size determines the address family:</p>
+<ul>
+<li>Size 4: Interpreted as IPv4 address (only matches IPv4 netmasks)</li>
+<li>Size 16: Interpreted as IPv6 address (only matches IPv6 netmasks)</li>
+</ul>
+<pre><code class="language-crystal">ipv4_net <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+ipv4_bytes <span class="o">=</span> <span class="t">Slice</span>[<span class="n">192_u8</span>, <span class="n">168_u8</span>, <span class="n">0_u8</span>, <span class="n">100_u8</span>]
+ipv4_net.matches? ipv4_bytes <span class="c"># =&gt; true</span>
+
+ipv6_net <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
+ipv6_bytes <span class="o">=</span> <span class="t">Slice</span>[<span class="n">0xfe_u8</span>, <span class="n">0x80_u8</span>, <span class="n">0_u8</span>, <span class="n">0_u8</span>, <span class="n">0_u8</span>, <span class="n">0_u8</span>, <span class="n">0_u8</span>, <span class="n">0_u8</span>,
+  <span class="n">0_u8</span>, <span class="n">0_u8</span>, <span class="n">0_u8</span>, <span class="n">0_u8</span>, <span class="n">0_u8</span>, <span class="n">0_u8</span>, <span class="n">0_u8</span>, <span class="n">1_u8</span>]
+ipv6_net.matches? ipv6_bytes <span class="c"># =&gt; true</span></code></pre>
+<p>Raises <code>ArgumentError</code> if the slice size is not 4 or 16:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+bad_slice <span class="o">=</span> <span class="t">Slice</span>[<span class="n">192_u8</span>, <span class="n">168_u8</span>] <span class="c"># only 2 bytes</span>
+netmask.matches? bad_slice        <span class="c"># raises ArgumentError</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="matches?(address:Slice(UInt16)):Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>matches?</strong>(address : Slice(UInt16)) : Bool
+
+        <a class="method-permalink" href="#matches%3F%28address%3ASlice%28UInt16%29%29%3ABool-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Returns <code>true</code> if the given segment slice <em>address</em> (IPv6 in network byte order) falls within this network block.</p>
+<p>This overload is only valid for IPv6 netmasks. Returns <code>false</code> if called on an IPv4 netmask.</p>
+<p>The slice must contain exactly 8 16-bit segments representing the IPv6 address:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
+<span class="c"># fe80::1</span>
+segments <span class="o">=</span> <span class="t">Slice</span>[<span class="n">0xfe80_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">1_u16</span>]
+netmask.matches? segments <span class="c"># =&gt; true</span></code></pre>
+<p>Raises <code>ArgumentError</code> if the slice size is not 8:</p>
+<pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
+bad_slice <span class="o">=</span> <span class="t">Slice</span>[<span class="n">0xfe80_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>] <span class="c"># only 4 segments</span>
+netmask.matches? bad_slice                         <span class="c"># raises ArgumentError</span></code></pre>
+        </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
+
+
+</div>
+
+</body>
+</html>

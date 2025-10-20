@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Crystal Docs 1.10.1">
+<meta name="crystal_docs.project_version" content="main-dev">
+<meta name="crystal_docs.project_name" content="netmask">
+
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+  <meta name="repository-name" content="netmask">
+  <title>netmask main-dev</title>
+  <script type="text/javascript">
+  CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+<input type="checkbox" id="sidebar-btn">
+<label for="sidebar-btn" id="sidebar-btn-label">
+  <svg class="open" xmlns="http://www.w3.org/2000/svg" height="2em" width="2em" viewBox="0 0 512 512"><title>Open Sidebar</title><path fill="currentColor" d="M80 96v64h352V96H80zm0 112v64h352v-64H80zm0 112v64h352v-64H80z"></path></svg>
+  <svg class="close" xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 512 512"><title>Close Sidebar</title><path fill="currentColor" d="m118.6 73.4-45.2 45.2L210.7 256 73.4 393.4l45.2 45.2L256 301.3l137.4 137.3 45.2-45.2L301.3 256l137.3-137.4-45.2-45.2L256 210.7Z"></path></svg>
+</label>
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          netmask
+        </a>
+      </h1>
+
+      <span class="project-version">
+        main-dev
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="netmask/Netmask" data-name="netmask">
+      <a href="Netmask.html">Netmask</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1><a id="netmask" class="anchor" href="#netmask">  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>netmask</h1>
+<p>A Crystal library for working with IPv4 and IPv6 CIDR network masks. Easily check if IP addresses belong to specific network ranges.</p>
+<h2><a id="artificial-intelligence-llm-contribution" class="anchor" href="#artificial-intelligence-llm-contribution">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Artificial Intelligence / LLM Contribution</h2>
+<p>This library was written by Claude Code using the Sonnet 4.5 model.  The resulting code was manually reviewed by the author listed below.  This was work that the author is entirely capable of having performed personally however it was a fun exercise in learning how to use Claude Code, and the author plans to support the library without the use of such tools in the future, except for advisory usage such as auto-completion and pointing out possible gaps in testing, etc.</p>
+<h2><a id="installation" class="anchor" href="#installation">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Installation</h2>
+<ol>
+<li>
+<p>Add the dependency to your <code>shard.yml</code>:</p>
+<pre><code class="language-yaml">dependencies:
+  netmask:
+    github: plambert/netmask.cr</code></pre>
+</li>
+<li>
+<p>Run <code>shards install</code></p>
+</li>
+</ol>
+<h2><a id="usage" class="anchor" href="#usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage</h2>
+<pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;netmask&quot;</span>
+
+<span class="c"># Create netmasks from CIDR notation</span>
+ipv4_net <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
+ipv6_net <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;3fff::/20&quot;</span>
+
+<span class="c"># Create from hostname (resolves via DNS)</span>
+host_net <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;example.host.name/32&quot;</span>
+
+<span class="c"># Create from Socket::IPAddress</span>
+ip <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new <span class="s">&quot;192.168.1.0&quot;</span>, <span class="n">0</span>
+net <span class="o">=</span> <span class="t">Netmask</span>.new ip, <span class="n">24</span> 
+
+<span class="c"># Check if addresses match the network</span>
+ipv4_net.matches? <span class="s">&quot;192.168.0.100&quot;</span>   <span class="c"># =&gt; true</span>
+ipv4_net.matches? <span class="s">&quot;192.168.1.100&quot;</span>   <span class="c"># =&gt; false</span>
+
+<span class="c"># Works with IPv6</span>
+ipv6_net.matches? <span class="s">&quot;3fff::1&quot;</span>         <span class="c"># =&gt; true</span>
+ipv6_net.matches? <span class="s">&quot;fe80::1&quot;</span>         <span class="c"># =&gt; false</span>
+
+<span class="c"># Multiple input types supported</span>
+ipv4_net.matches? <span class="n">0xC0A80064_u32</span>    <span class="c"># UInt32 (IPv4)</span>
+ipv6_net.matches? <span class="n">0x3fff0000000000000000000000000001_u128</span>   <span class="c"># UInt128 (IPv6)</span>
+
+<span class="c"># Byte arrays</span>
+ipv4_net.matches? <span class="t">StaticArray</span>[<span class="n">192_u8</span>, <span class="n">168_u8</span>, <span class="n">0_u8</span>, <span class="n">100_u8</span>] 
+ipv6_net.matches? <span class="t">StaticArray</span>[<span class="n">0x3fff_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">1_u16</span>] 
+
+<span class="c"># Slices</span>
+ipv4_net.matches? <span class="t">Slice</span>[<span class="n">192_u8</span>, <span class="n">168_u8</span>, <span class="n">0_u8</span>, <span class="n">100_u8</span>] 
+ipv6_net.matches? <span class="t">Slice</span>[<span class="n">0x3fff_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">1_u16</span>] 
+
+<span class="c"># Socket::IPAddress (port is ignored)</span>
+ip_addr <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new(<span class="s">&quot;192.168.0.50&quot;</span>, <span class="n">8080</span>)
+ipv4_net.matches? ip_addr   <span class="c"># =&gt; true</span>
+
+<span class="c"># Check network type</span>
+ipv4_net.ipv4?  <span class="c"># =&gt; true</span>
+ipv4_net.ipv6?  <span class="c"># =&gt; false</span></code></pre>
+<h2><a id="supported-input-types-for-matches" class="anchor" href="#supported-input-types-for-matches">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Supported Input Types for matches?</h2>
+<p>The <code>matches?</code> method accepts addresses in multiple formats:</p>
+<ul>
+<li><strong>String</strong>: IPv4 (<code>&quot;192.168.1.73&quot;</code>) or IPv6 (<code>&quot;fe80::1062:2bf2:ae43:2c71&quot;</code>)</li>
+<li><strong>Socket::IPAddress</strong>: Extracts IP and ignores port</li>
+<li><strong>UInt32</strong>: IPv4 address in network byte order</li>
+<li><strong>UInt128</strong>: IPv6 address in network byte order</li>
+<li><strong>StaticArray(UInt8, 4)</strong>: IPv4 as 4 bytes</li>
+<li><strong>StaticArray(UInt16, 8)</strong>: IPv6 as 8 16-bit segments</li>
+<li><strong>Slice(UInt8)</strong>: IPv4 (size 4) or IPv6 (size 16) as bytes</li>
+<li><strong>Slice(UInt16)</strong>: IPv6 as 8 16-bit segments (size 8)</li>
+</ul>
+<h2><a id="development" class="anchor" href="#development">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Development</h2>
+<p>Run tests:</p>
+<pre><code class="language-bash">crystal spec -v --error-trace</code></pre>
+<p>Format code:</p>
+<pre><code class="language-bash">crystal tool format src/ spec/</code></pre>
+<p>Run linter:</p>
+<pre><code class="language-bash">ameba -f json src/ spec/</code></pre>
+<h2><a id="contributing" class="anchor" href="#contributing">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Contributing</h2>
+<ol>
+<li>Fork it (<a href="https://github.com/plambert/netmask.cr/fork">https://github.com/plambert/netmask.cr/fork</a>)</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
+<h2><a id="contributors" class="anchor" href="#contributors">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Contributors</h2>
+<ul>
+<li><a href="https://github.com/plambert">Paul M. Lambert</a> - creator and maintainer</li>
+</ul>
+</div>
+</body>
+</html>
