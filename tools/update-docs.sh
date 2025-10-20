@@ -7,26 +7,33 @@ set -e -o pipefail
 # Determine the mode of operation
 
 mode=-PUSH-
+force=""
 
-case "$1" in
-  --diff)
-    mode=-DIFF-
-    ;;
-  --push)
-    mode=-PUSH-
-    ;;
-  --dryrun)
-    mode=-DRYRUN-
-    ;;
-  "")
-    echo 1>&2 "$0: you must give one of --diff, --push, or --dryrun as an option"
-    exit 1
-    ;;
-  *)
-    echo 1>&2 "$0: $1: unknown option"
-    exit 1
-    ;;
-esac
+while [[ $# -gt 0 ]]; do
+  opt="$1"
+  shift
+  case "$opt" in
+    --force)
+      force=-YES-
+      ;;
+    --no-force)
+      force=""
+      ;;
+    --diff)
+      mode=-DIFF-
+      ;;
+    --push)
+      mode=-PUSH-
+      ;;
+    --dryrun)
+      mode=-DRYRUN-
+      ;;
+    *)
+      echo 1>&2 "$0: $opt: unknown option"
+      exit 1
+      ;;
+  esac
+done
 
 # Configure variables for needed literal values
 
@@ -54,16 +61,15 @@ trap cleanup_at_exit EXIT
 
 tmpdir="$(mktemp -d)"
 
-# git describe --tags --exact-match 2> /dev/null \
-# || git rev-parse --short HEAD
-# Identify if we are on a tag, or on a committed branch
 
-mapfile -t status_lines < <(git status --porcelain)
+if [[ ! -n "$force" ]]; then
+  mapfile -t status_lines < <(git status --porcelain)
 
-if [[ "${#status_lines[*]}" -gt 0 ]]; then
-  printf 1>&2 '\e[31m%s\e[0m\n' "${status_lines[@]}"
-  echo 1>&2 "ERROR: current working directory is dirty, cannot continue"
-  exit 1
+  if [[ "${#status_lines[*]}" -gt 0 ]]; then
+    printf 1>&2 '\e[31m%s\e[0m\n' "${status_lines[@]}"
+    echo 1>&2 "ERROR: current working directory is dirty, cannot continue"
+    exit 1
+  fi
 fi
 
 reftype=""
@@ -106,6 +112,26 @@ crystal docs \
   --time \
   --error-on-warnings
 
+if type -p jq > /dev/null; then
+  (
+    cd "$WORKTREE_DIR"
+    mv "docs/index.json" "./index.json"
+    jq . "./index.json" > "docs/index.json"
+    rm "./index.json"
+    mv "docs/search-index.js" "./search-index.js"
+    IFS='(' read -r callback_function _ < ./search-index.js
+    if [[ -n "$callback_function" ]]; then
+      echo "${callback_function}(" > tmp
+      while read -r line; do
+        echo "  $line" >> tmp
+      done < docs/index.json 
+      echo ")" >> tmp
+      mv tmp docs/search-index.js
+    fi
+    rm -f ./search-index.js
+  )
+fi
+
 case "$mode" in
   -DIFF-)
     git -C "$WORKTREE_DIR" diff
@@ -114,6 +140,7 @@ case "$mode" in
   -PUSH-)
     git -C "$WORKTREE_DIR" commit -a -m "Commit new documentation for ${refname}"
     git -C "$WORKTREE_DIR" push
+    git -C . fetch -a
     ;;
 
   -DRYRUN-)
