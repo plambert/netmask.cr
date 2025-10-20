@@ -414,7 +414,8 @@ net6.matches? <span class="s">&quot;fe80::ffff&quot;</span> <span class="c"># =&
 <p>Raises <code>ArgumentError</code> if:</p>
 <ul>
 <li>The prefix length is negative</li>
-<li>The prefix length exceeds the maximum for the address family (32 for IPv4, 128 for IPv6)</li>
+<li>The prefix length exceeds the maximum for the address family (32 for IPv4, 128 for
+IPv6)</li>
 <li>The address family is not IPv4 or IPv6</li>
 </ul>
 <pre><code class="language-crystal">ip <span class="o">=</span> <span class="t">Socket</span><span class="t">::</span><span class="t">IPAddress</span>.new <span class="s">&quot;192.168.0.0&quot;</span>, <span class="n">0</span>
@@ -630,8 +631,10 @@ netmask.matches? unsupported_addr <span class="c"># raises ArgumentError</span><
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if the given <code>UInt32</code> <em>address</em> (in network byte order) falls within this network block.</p>
-<p>This overload is only valid for IPv4 netmasks. Returns <code>false</code> if called on an IPv6 netmask.</p>
+          <p>Returns <code>true</code> if the given <code>UInt32</code> <em>address</em> (in network byte order) falls within
+this network block.</p>
+<p>This overload is only valid for IPv4 netmasks. Returns <code>false</code> if called on an IPv6
+netmask.</p>
 <p>The address must be in network byte order (big-endian), with the most significant
 byte representing the first octet:</p>
 <pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
@@ -661,8 +664,10 @@ ipv6_net.matches? <span class="n">0xC0A80064_u32</span> <span class="c"># =&gt; 
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if the given <code>UInt128</code> <em>address</em> (in network byte order) falls within this network block.</p>
-<p>This overload is only valid for IPv6 netmasks. Returns <code>false</code> if called on an IPv4 netmask.</p>
+          <p>Returns <code>true</code> if the given <code>UInt128</code> <em>address</em> (in network byte order) falls within
+this network block.</p>
+<p>This overload is only valid for IPv6 netmasks. Returns <code>false</code> if called on an IPv4
+netmask.</p>
 <p>The address must be in network byte order (big-endian):</p>
 <pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
 <span class="c"># fe80::1 = 0xfe800000000000000000000000000001</span>
@@ -691,9 +696,12 @@ ipv4_net.matches? <span class="n">0xfe800000000000000000000000000001_u128</span>
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if the given byte array <em>address</em> (IPv4 in network byte order) falls within this network block.</p>
-<p>This overload is only valid for IPv4 netmasks. Returns <code>false</code> if called on an IPv6 netmask.</p>
-<p>The array must contain exactly 4 bytes representing the IPv4 address in network byte order:</p>
+          <p>Returns <code>true</code> if the given byte array <em>address</em> (IPv4 in network byte order) falls
+within this network block.</p>
+<p>This overload is only valid for IPv4 netmasks. Returns <code>false</code> if called on an IPv6
+netmask.</p>
+<p>The array must contain exactly 4 bytes representing the IPv4 address in network byte
+order:</p>
 <pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;192.168.0.0/24&quot;</span>
 addr <span class="o">=</span> <span class="t">StaticArray</span>[<span class="n">192_u8</span>, <span class="n">168_u8</span>, <span class="n">0_u8</span>, <span class="n">100_u8</span>]
 netmask.matches? addr <span class="c"># =&gt; true</span>
@@ -720,9 +728,12 @@ netmask.matches? addr2 <span class="c"># =&gt; false</span></code></pre>
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if the given segment array <em>address</em> (IPv6 in network byte order) falls within this network block.</p>
-<p>This overload is only valid for IPv6 netmasks. Returns <code>false</code> if called on an IPv4 netmask.</p>
-<p>The array must contain exactly 8 16-bit segments representing the IPv6 address in network byte order:</p>
+          <p>Returns <code>true</code> if the given segment array <em>address</em> (IPv6 in network byte order) falls
+within this network block.</p>
+<p>This overload is only valid for IPv6 netmasks. Returns <code>false</code> if called on an IPv4
+netmask.</p>
+<p>The array must contain exactly 8 16-bit segments representing the IPv6 address in
+network byte order:</p>
 <pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
 <span class="c"># fe80::1</span>
 addr <span class="o">=</span> <span class="t">StaticArray</span>[<span class="n">0xfe80_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">0_u16</span>, <span class="n">1_u16</span>]
@@ -751,7 +762,8 @@ netmask.matches? addr2 <span class="c"># =&gt; false</span></code></pre>
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if the given byte slice <em>address</em> (in network byte order) falls within this network block.</p>
+          <p>Returns <code>true</code> if the given byte slice <em>address</em> (in network byte order) falls within
+this network block.</p>
 <p>The slice size determines the address family:</p>
 <ul>
 <li>Size 4: Interpreted as IPv4 address (only matches IPv4 netmasks)</li>
@@ -789,8 +801,10 @@ netmask.matches? bad_slice        <span class="c"># raises ArgumentError</span><
       
         <div class="doc">
           
-          <p>Returns <code>true</code> if the given segment slice <em>address</em> (IPv6 in network byte order) falls within this network block.</p>
-<p>This overload is only valid for IPv6 netmasks. Returns <code>false</code> if called on an IPv4 netmask.</p>
+          <p>Returns <code>true</code> if the given segment slice <em>address</em> (IPv6 in network byte order) falls
+within this network block.</p>
+<p>This overload is only valid for IPv6 netmasks. Returns <code>false</code> if called on an IPv4
+netmask.</p>
 <p>The slice must contain exactly 8 16-bit segments representing the IPv6 address:</p>
 <pre><code class="language-crystal">netmask <span class="o">=</span> <span class="t">Netmask</span>.new <span class="s">&quot;fe80::/64&quot;</span>
 <span class="c"># fe80::1</span>
