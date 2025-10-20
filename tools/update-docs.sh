@@ -30,6 +30,29 @@ trap cleanup_at_exit EXIT
 
 tmpdir="$(mktemp -d)"
 
+# git describe --tags --exact-match 2> /dev/null \
+# || git rev-parse --short HEAD
+# Identify if we are on a tag, or on a committed branch
+
+mapfile -t status_lines < <(git status --porcelain)
+
+if [[ "${#status_lines[*]}" -gt 0 ]]; then
+  printf 1>&2 '\e[31m%s\e[0m\n' "${status_lines[@]}"
+  echo 1>&2 "ERROR: current working directory is dirty, cannot continue"
+  exit 1
+fi
+
+refname=""
+if tag="$(git describe --tags --exact-match 2> /dev/null)"; then
+  refname="tag-${tag}"
+elif branch="$(git rev-parse --abbrev-ref HEAD)" && [[ -n "$branch" ]]; then
+  refname="$branch"
+fi
+
+if [[ -z "$refname" ]]; then
+  refname="commit-$(git rev-parse --short HEAD)"
+fi
+
 # Create a workspace for the docs in the temporary directory.
 
 WORKTREE_DIR="${tmpdir}/${WORKTREE_NAME}"
@@ -37,7 +60,22 @@ mkdir -p "$WORKTREE_DIR"
 
 git worktree add "$WORKTREE_DIR" "$GITHUB_PAGES_BRANCH"
 
-(cd "$WORKTREE_DIR" && find . -type f -ls || true)
+# Create the docs into the docs directory in that branch
+
+crystal docs \
+  --project-name=netmask.cr \
+  --project-version=main-branch \
+  --source-refname="$refname" \
+  --source-url-pattern="https://plambert.github.io/netmask.cr/" \
+  --output "${WORKTREE_DIR}/docs" \
+  --format html \
+  --canonical-base-url="https://plambert.github.io/netmask.cr/" \
+  --error-trace \
+  --stats \
+  --time \
+  --error-on-warnings
+
+cd "$WORKTREE_DIR" && find * -type f -ls
 
 echo OK
 
