@@ -85,7 +85,8 @@ require "socket"
 # ipv6_net.matches? "192.168.0.1" # => false
 # ```
 struct Netmask
-  VERSION = "0.1.0"
+  #VERSION = "0.1.0"
+  VERSION    = {{ system("#{__DIR__}/../tools/get-version.sh").stringify }}
 
   @network : UInt32 | UInt128
   @bits : Int32
