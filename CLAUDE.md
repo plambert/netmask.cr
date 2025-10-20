@@ -42,6 +42,30 @@ To reformat Crystal code and quickly find syntax errors, run:
 
   `crystal tool format src/ spec/`
 
+Review the documentation, especially the API documentation, to understand what the standard library offers to help.
+
+Crystal supports union types, so you can represent the network data as a union like `UInt32 | UInt128`.  You can implement a `#ipv4?` method like this, if you call the network portion `@network`:
+
+```
+struct Netmask
+  def ipv4? : Bool
+    case @network
+    in UInt32
+      true
+    in UInt128
+      false
+    end
+  end
+```
+
+The `case <thing> ... in A ... in B ... end` syntax is great when you are testing a type because it requires that you have an `in` clause for every possibility. Since the type union is known at compile time, the above example is exhaustive and will compile fine. But when you are not doing an exhaustive test, or are sure that you want new possible values you are not explicitly listed to fall into an `else ...` clause.
+
+There is an application installed called `ameba` that will identify problems with Crystal code.  A config file has been added to the repository, `.ameba.yml`, to ignore one warning that we do not care about.
+
+A warning can be silenced in the code by adding a comment in the line before (it must be immediately before, and not on the same line).  The format for the comment is: `# ameba:disable Metrics/CyclomaticComplexity` where the second word is the identifier for the rule to be disabled.  Do this sparingly and only when certain that it is more readable and reliable to ignore the warning than to make code changes that avoid it.
+
+To run this tool, you use `ameba -f json src/ spec/`.
+
 # Source control requirements
 
 Create a new branch for each TODO item being implemented.  Commit the implementation as it is created or updated, including after each test is written or updated.  Describe the changes clearly in the commit message but do not repeat the obvious things like what files were updated; summarize the _why_ and give less time to the _what_.
