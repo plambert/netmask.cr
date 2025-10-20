@@ -75,7 +75,9 @@ crystal docs \
   --time \
   --error-on-warnings
 
-git -C "$WORKTREE_DIR" status
+git -C "$WORKTREE_DIR" commit -a -m "Commit new documentation for ${refname}"
+
+git -C "$WORKTREE_DIR" push
 
 cd "$WORKTREE_DIR" && find * -type f -ls
 
