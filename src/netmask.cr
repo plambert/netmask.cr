@@ -11,7 +11,6 @@ struct Netmask
 
   # Creates a Netmask from a CIDR string (e.g., "192.168.0.0/24" or "3fff::/20")
   # or a hostname with CIDR notation (e.g., "example.host.name/32")
-  # ameba:disable Metrics/CyclomaticComplexity
   def initialize(cidr : String)
     parts = cidr.split('/')
     raise ArgumentError.new("Invalid CIDR notation: #{cidr}") if parts.size != 2
@@ -72,7 +71,6 @@ struct Netmask
   end
 
   # Creates a Netmask from a Socket::IPAddress and mask bits
-  # ameba:disable Metrics/CyclomaticComplexity
   def initialize(ip : Socket::IPAddress, bits : Int32)
     @bits = bits
 
@@ -131,15 +129,12 @@ struct Netmask
 
   # Checks if an address matches this netmask
   def matches?(address : String) : Bool
-    # Try parsing as IP address
-    begin
-      # Wrap IPv6 addresses in brackets for URI parsing
-      test_addr = address.includes?(':') ? "[#{address}]" : address
-      ip = Socket::IPAddress.parse("ip://#{test_addr}:0")
-      matches?(ip)
-    rescue
-      false
-    end
+    # Wrap IPv6 addresses in brackets for URI parsing
+    test_addr = address.includes?(':') ? "[#{address}]" : address
+    ip = Socket::IPAddress.parse("ip://#{test_addr}:0")
+    matches?(ip)
+  rescue
+    false
   end
 
   # Checks if a Socket::IPAddress matches this netmask
