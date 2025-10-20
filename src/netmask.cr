@@ -222,7 +222,8 @@ struct Netmask
   #
   # Raises `ArgumentError` if:
   # - The prefix length is negative
-  # - The prefix length exceeds the maximum for the address family (32 for IPv4, 128 for IPv6)
+  # - The prefix length exceeds the maximum for the address family (32 for IPv4, 128 for
+  #   IPv6)
   # - The address family is not IPv4 or IPv6
   #
   # ```
@@ -376,9 +377,11 @@ struct Netmask
     end
   end
 
-  # Returns `true` if the given `UInt32` *address* (in network byte order) falls within this network block.
+  # Returns `true` if the given `UInt32` *address* (in network byte order) falls within
+  # this network block.
   #
-  # This overload is only valid for IPv4 netmasks. Returns `false` if called on an IPv6 netmask.
+  # This overload is only valid for IPv4 netmasks. Returns `false` if called on an IPv6
+  # netmask.
   #
   # The address must be in network byte order (big-endian), with the most significant
   # byte representing the first octet:
@@ -402,9 +405,11 @@ struct Netmask
     masked == @network
   end
 
-  # Returns `true` if the given `UInt128` *address* (in network byte order) falls within this network block.
+  # Returns `true` if the given `UInt128` *address* (in network byte order) falls within
+  # this network block.
   #
-  # This overload is only valid for IPv6 netmasks. Returns `false` if called on an IPv4 netmask.
+  # This overload is only valid for IPv6 netmasks. Returns `false` if called on an IPv4
+  # netmask.
   #
   # The address must be in network byte order (big-endian):
   #
@@ -427,11 +432,14 @@ struct Netmask
     masked == @network
   end
 
-  # Returns `true` if the given byte array *address* (IPv4 in network byte order) falls within this network block.
+  # Returns `true` if the given byte array *address* (IPv4 in network byte order) falls
+  # within this network block.
   #
-  # This overload is only valid for IPv4 netmasks. Returns `false` if called on an IPv6 netmask.
+  # This overload is only valid for IPv4 netmasks. Returns `false` if called on an IPv6
+  # netmask.
   #
-  # The array must contain exactly 4 bytes representing the IPv4 address in network byte order:
+  # The array must contain exactly 4 bytes representing the IPv4 address in network byte
+  # order:
   #
   # ```
   # netmask = Netmask.new "192.168.0.0/24"
@@ -448,11 +456,14 @@ struct Netmask
     matches?(addr_u32)
   end
 
-  # Returns `true` if the given segment array *address* (IPv6 in network byte order) falls within this network block.
+  # Returns `true` if the given segment array *address* (IPv6 in network byte order) falls
+  # within this network block.
   #
-  # This overload is only valid for IPv6 netmasks. Returns `false` if called on an IPv4 netmask.
+  # This overload is only valid for IPv6 netmasks. Returns `false` if called on an IPv4
+  # netmask.
   #
-  # The array must contain exactly 8 16-bit segments representing the IPv6 address in network byte order:
+  # The array must contain exactly 8 16-bit segments representing the IPv6 address in
+  # network byte order:
   #
   # ```
   # netmask = Netmask.new "fe80::/64"
@@ -473,7 +484,8 @@ struct Netmask
     matches?(addr_u128)
   end
 
-  # Returns `true` if the given byte slice *address* (in network byte order) falls within this network block.
+  # Returns `true` if the given byte slice *address* (in network byte order) falls within
+  # this network block.
   #
   # The slice size determines the address family:
   # - Size 4: Interpreted as IPv4 address (only matches IPv4 netmasks)
@@ -516,9 +528,11 @@ struct Netmask
     end
   end
 
-  # Returns `true` if the given segment slice *address* (IPv6 in network byte order) falls within this network block.
+  # Returns `true` if the given segment slice *address* (IPv6 in network byte order) falls
+  # within this network block.
   #
-  # This overload is only valid for IPv6 netmasks. Returns `false` if called on an IPv4 netmask.
+  # This overload is only valid for IPv6 netmasks. Returns `false` if called on an IPv4
+  # netmask.
   #
   # The slice must contain exactly 8 16-bit segments representing the IPv6 address:
   #
@@ -575,7 +589,8 @@ struct Netmask
     parse_ipv6_to_u128(address)
   end
 
-  # Parse an IPv6 address string into a UInt128 (helper for constructors and instance methods)
+  # Parse an IPv6 address string into a UInt128 (helper for constructors and instance
+  # methods)
   private def parse_ipv6_to_u128(address : String) : UInt128
     # Split by :: to handle compression
     parts = address.split("::")
