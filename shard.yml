@@ -1,0 +1,9 @@
+name: netmask
+version: 0.1.0
+
+authors:
+  - Paul M. Lambert <plambert@plambert.net>
+
+crystal: '>= 1.17.1'
+
+license: MIT
