@@ -18,6 +18,10 @@ case "$1" in
   --dryrun)
     mode=-DRYRUN-
     ;;
+  "")
+    echo 1>&2 "$0: you must give one of --diff, --push, or --dryrun as an option"
+    exit 1
+    ;;
   *)
     echo 1>&2 "$0: $1: unknown option"
     exit 1
