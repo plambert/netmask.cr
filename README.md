@@ -2,6 +2,8 @@
 
 A Crystal library for working with IPv4 and IPv6 CIDR network masks. Easily check if IP addresses belong to specific network ranges.
 
+Documentation is published to [plambert.github.io/netmask.cr](https://plambert.github.io/netmask.cr/)
+
 ## Artificial Intelligence / LLM Contribution
 
 This library was written by Claude Code using the Sonnet 4.5 model.  The resulting code was manually reviewed by the author listed below.  This was work that the author is entirely capable of having performed personally however it was a fun exercise in learning how to use Claude Code, and the author plans to support the library without the use of such tools in the future, except for advisory usage such as auto-completion and pointing out possible gaps in testing, etc.
