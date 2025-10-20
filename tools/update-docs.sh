@@ -75,6 +75,8 @@ crystal docs \
   --time \
   --error-on-warnings
 
+git -C "$WORKTREE_DIR" status
+
 cd "$WORKTREE_DIR" && find * -type f -ls
 
 echo OK
