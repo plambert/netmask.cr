@@ -42,16 +42,23 @@ if [[ "${#status_lines[*]}" -gt 0 ]]; then
   exit 1
 fi
 
+reftype=""
 refname=""
-if tag="$(git describe --tags --exact-match 2> /dev/null)"; then
-  refname="tag-${tag}"
-elif branch="$(git rev-parse --abbrev-ref HEAD)" && [[ -n "$branch" ]]; then
-  refname="$branch"
+
+if refname="$(git describe --tags --exact-match 2> /dev/null)"; then
+  reftype=tag
+elif refname="$(git rev-parse --abbrev-ref HEAD)" && [[ -n "$branch" ]]; then
+  reftype=branch
 fi
 
-if [[ -z "$refname" ]]; then
-  refname="commit-$(git rev-parse --short HEAD)"
+if [[ -z "$refname" ]] || [[ -z "$reftype" ]]; then
+  refname="$(git rev-parse --short HEAD)"
+  reftype="commit"
 fi
+
+timestamp="$(env TZ=UTC date +%Y-%m-%d\ %H:%M:%S)"
+
+printf -v refname '%s %q (%s UTC)' "$reftype" "$refname" "$timestamp"
 
 # Create a workspace for the docs in the temporary directory.
 
