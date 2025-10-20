@@ -4,6 +4,26 @@
 
 set -e -o pipefail
 
+# Determine the mode of operation
+
+mode=-PUSH-
+
+case "$1" in
+  --diff)
+    mode=-DIFF-
+    ;;
+  --push)
+    mode=-PUSH-
+    ;;
+  --dryrun)
+    mode=-DRYRUN-
+    ;;
+  *)
+    echo 1>&2 "$0: $1: unknown option"
+    exit 1
+    ;;
+esac
+
 # Configure variables for needed literal values
 
 GITHUB_PAGES_BRANCH=gh-pages
@@ -82,12 +102,24 @@ crystal docs \
   --time \
   --error-on-warnings
 
-git -C "$WORKTREE_DIR" commit -a -m "Commit new documentation for ${refname}"
+case "$mode" in
+  -DIFF-)
+    git -C "$WORKTREE_DIR" diff
+    ;;
 
-git -C "$WORKTREE_DIR" push
+  -PUSH-)
+    git -C "$WORKTREE_DIR" commit -a -m "Commit new documentation for ${refname}"
+    git -C "$WORKTREE_DIR" push
+    ;;
 
-cd "$WORKTREE_DIR" && find * -type f -ls
+  -DRYRUN-)
+    (cd "$WORKTREE_DIR" && find ./* -type f -ls)
+    ;;
 
-echo OK
+  *)
+    echo 1>&2 "$0: ${mode}: unknown mode"
+    exit 1
+    ;;
+esac
 
 cleanup_at_exit
